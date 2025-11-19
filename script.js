@@ -74,8 +74,25 @@ document.querySelectorAll('.project-card').forEach(card => {
 // Contact Form Handling
 const contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+contactForm.addEventListener('submit', async (e) => {
+       e.preventDefault();
+       const formData = new FormData(contactForm);
+       
+       try {
+           const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+               method: 'POST',
+               body: formData,
+               headers: { 'Accept': 'application/json' }
+           });
+           
+           if (response.ok) {
+               alert('Thank you! Your message has been sent.');
+               contactForm.reset();
+           }
+       } catch (error) {
+           alert('Oops! There was a problem.');
+       }
+   });
     
     // Get form data
     const formData = {
